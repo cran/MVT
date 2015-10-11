@@ -1,0 +1,19 @@
+useDynLib(MVT)
+
+# Imports: stats, utils, graphics
+importFrom(stats, cor, cov, dbeta, mahalanobis, model.matrix, na.fail, na.omit, pbeta,
+           pchisq, qbeta, qqnorm, quantile, terms, var)
+importFrom(utils, setTxtProgressBar, txtProgressBar)
+importFrom(graphics, par)
+
+# Exports:
+export(duplication, dweights, center.test, commutation, envelope, equicorrelation.test,
+    fisher.info, homogeneity.test, kurtosis, mvt.control, pweights, qweights, rmt,
+    Student.family, Student, studentFit, wilson.hilferty)
+
+## register S3 methods
+S3method(print, Student.family)
+S3method(print, studentFit)
+S3method(print, center.test)
+S3method(print, homogeneity.test)
+S3method(print, equicorrelation.test)

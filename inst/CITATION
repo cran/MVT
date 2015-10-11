@@ -1,0 +1,12 @@
+citHeader("To cite the MVT package in publications use:")
+
+citEntry(entry = "Unpublished",
+         title = "Statistical inference in multivariate analysis using the t-distribution",
+	 author = personList(as.person("Felipe Osorio"),
+			   as.person("Manuel Galea")),
+	 year = "2015",
+	 note = "Unpublished manuscript",
+	 textVersion = paste("Osorio, F., Galea, M. (2015).",
+			   "Statistical inference in multivariate analysis using the t-distribution.",
+			   "Unpublished manuscript.")
+)
