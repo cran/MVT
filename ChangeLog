@@ -1,0 +1,7 @@
+0.3-8 (Jan 25, 2023)
+	* C code to obtain certain matrix computations and decompositions is now provided
+	  by 'fastmatrix' R package.
+	* Clean-ups in C and R code.
+
+0.3 (Oct 11, 2015)
+	* Initial release of the MVT on CRAN

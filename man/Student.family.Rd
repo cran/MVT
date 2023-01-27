@@ -11,10 +11,11 @@ Student(eta = .25)
 }
 
 \arguments{
-  \item{eta}{  shape parameter for the multivariate t-distribution, must be confined to \code{[0,1/2)}.}
+  \item{eta}{ shape parameter for the multivariate t-distribution, must be confined to \code{[0,1/2)}.}
 }
 \details{
-  \code{Student} is a generic function to create info about the t-distribution which is passed to the estimation algorithm.
+  \code{Student} is a generic function to create info about the t-distribution which
+  is passed to the estimation algorithm.
 }
 
 \examples{

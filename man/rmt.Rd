@@ -27,8 +27,8 @@ rmt(n = 1, mean = rep(0, nrow(Sigma)), Sigma = diag(length(mean)), eta = .25)
   the Cholesky decomposition. If \code{Sigma} is not non-negative definite then
   there will be a warning message.
   
-  This parameterization of the multivariate-t includes the normal distribution as a particular
-  case when \code{eta = 0}.
+  This parameterization of the multivariate-t includes the normal distribution 
+  as a particular case when \code{eta = 0}.
 }
 
 \references{

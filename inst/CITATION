@@ -1,12 +1,12 @@
-citHeader("To cite the MVT package in publications use:")
+citHeader("To cite MVT package in publications use:")
 
-citEntry(entry = "Unpublished",
-         title = "Statistical inference in multivariate analysis using the t-distribution",
-	 author = personList(as.person("Felipe Osorio"),
-			   as.person("Manuel Galea")),
-	 year = "2015",
-	 note = "Unpublished manuscript",
-	 textVersion = paste("Osorio, F., Galea, M. (2015).",
-			   "Statistical inference in multivariate analysis using the t-distribution.",
-			   "Unpublished manuscript.")
+citEntry(entry = "Manual",
+  title = "Estimation and testing for the multivariate t-distribution",
+  author = personList(as.person("F. Osorio")),
+  year = "2023",
+  note = "R package version 0.3-8",
+  url = "http://mvt.mat.utfsm.cl",
+  textVersion =
+  paste("Osorio, F. (2023). Estimation and testing for the multivariate t-distribution.",
+  "R package version 0.3-8.", "URL: http://mvt.mat.utfsm.cl")
 )

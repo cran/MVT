@@ -25,10 +25,6 @@ equicorrelation.test(object, test = "LRT")
   \item{data}{ name of the data used in the test.}
 }
 \references{
-  Osorio, F., and Galea, M. (2015).
-  Statistical inference in multivariate analysis using the t-distribution.
-  Unpublished manuscript.
-  
   Sutradhar, B.C. (1993).
   Score test for the covariance matrix of the elliptical t-distribution.
   \emph{Journal of Multivariate Analysis} \bold{46}, 1-12.

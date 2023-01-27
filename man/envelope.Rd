@@ -1,11 +1,11 @@
-\name{envelope}
-\alias{envelope}
+\name{envelope.student}
+\alias{envelope.student}
 \title{QQ-plot with simulated envelopes}
 \description{
 Constructs a normal QQ-plot using a Wilson-Hilferty transformation for the estimated Mahalanobis distances obtained from the fitting procedure.
 }
 \usage{
-envelope(object, reps = 50, conf = 0.95, plot.it = TRUE)
+envelope.student(object, reps = 50, conf = 0.95, plot.it = TRUE)
 }
 \arguments{
 \item{object}{ an object of class \code{'studentFit'} representing the fitted model.}
@@ -25,15 +25,14 @@ envelope(object, reps = 50, conf = 0.95, plot.it = TRUE)
   \emph{Plots, Transformations and Regression}.
   Oxford University Press, Oxford.
 
-  Osorio, F., and Galea, M. (2015).
-  Statistical inference in multivariate analysis using the t-distribution.
-  Unpublished manuscript.
+  Osorio, F., Galea, M., Henriquez, C., Arellano-Valle, R. (2023). 
+  Addressing non-normality in multivariate analysis using the t-distribution. 
+  \emph{AStA Advances in Statistical Analysis}. \doi{10.1007/s10182-022-00468-2}
 }
 \seealso{\code{\link{wilson.hilferty}}}
 \examples{
-data(PFM)
-fit <- studentFit(~ cuprum.D + habitat.D + planvital.D + provida.D, data = PFM,
-  family = Student(eta = 0.25))
-envelope(fit, reps = 500, conf = 0.95)
+data(PSG)
+fit <- studentFit(~ manual + automated, data = PSG, family = Student(eta = 0.25))
+envelope.student(fit, reps = 500, conf = 0.95)
 }
 \keyword{dplot}

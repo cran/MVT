@@ -6,12 +6,11 @@ Performs several test for testing equality of \eqn{p \ge 2} correlated variables
 score, Wald and gradient can be used as a test statistic.
 }
 \usage{
-homogeneity.test(object, test = "LRT", type = "scale")
+homogeneity.test(object, test = "LRT")
 }
 \arguments{
   \item{object}{ object of class \code{'studentFit'} representing the fitted model.}
   \item{test}{ test statistic to be used. One of "LRT" (default), "Wald", "score" or "gradient".}
-  \item{type}{one of \code{"scale"} (default) or \code{"both"} indicating the type of the hypothesis to test homogeneity of variances or variances \emph{and} means, respectively.}
 }
 \value{
   A list of class 'homogeneity.test' with the following elements:
@@ -33,10 +32,6 @@ homogeneity.test(object, test = "LRT", type = "scale")
   Modarres, R. (1993).
   Testing the equality of dependent variables.
   \emph{Biometrical Journal} \bold{7}, 785-790.
-
-  Osorio, F., and Galea, M. (2015).
-  Statistical inference in multivariate analysis using the t-distribution.
-  Unpublished manuscript.
 }
 \examples{
 data(examScor)

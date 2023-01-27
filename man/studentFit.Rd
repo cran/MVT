@@ -8,20 +8,26 @@
   breakdown point.
 }
 \usage{
-studentFit(x, data, family = Student(eta = .25), subset, na.action, control)
+studentFit(x, data, family = Student(eta = .25), covStruct = "UN", subset, na.action, 
+control)
 }
 \arguments{
   \item{x}{  a formula or a numeric matrix or an object that can be coerced to a numeric matrix.}
   \item{data}{  an optional data frame (or similar: see \code{\link{model.frame}}), used only if
   \code{x} is a formula. By default the variables are taken from \code{environment(formula)}.}
-  \item{family}{ a description of the error distribution to be used in the model. 
-  By default the multivariate t-distribution with 0.25 as shape parameter is considered
-  (using \code{eta = 0} allows to tackle the multivariate normal distribution).}
-  \item{subset}{ an optional expression indicating the subset of the rows of 
-  data that should be used in the fitting process.}
+  \item{family}{ a description of the error distribution to be used in the model.
+    By default the multivariate t-distribution with 0.25 as shape parameter is considered
+    (using \code{eta = 0} allows to tackle the multivariate normal distribution).}
+  \item{covStruct}{ a character string specifying the type of covariance structure. The options 
+    available are: \code{"UN"} (unstructured) general covariance matrix with no additional structure
+    (default), \code{"CS"} (compound symmetry) corresponding to a constant correlation or equicorrelation, 
+    \code{"DIAG"} (diagonal) representing a diagonal positive-definite matrix, \code{"HOMO"} (homogeneous) 
+    meaning a covariance matrix with homogeneous variances.}
+  \item{subset}{ an optional expression indicating the subset of the rows of
+    data that should be used in the fitting process.}
   \item{na.action}{ a function that indicates what should happen when the data contain NAs.}
-  \item{control}{ a list of control values for the estimation algorithm to replace 
-  the default values returned by the function \code{\link{mvt.control}}.}
+  \item{control}{ a list of control values for the estimation algorithm to replace
+    the default values returned by the function \code{\link{MVT.control}}.}
 }
 \value{
   A list with class \code{'studentFit'} containing the following components:
@@ -37,19 +43,19 @@ studentFit(x, data, family = Student(eta = .25), subset, na.action, control)
   Generic function \code{print} show the results of the fit.
 }
 \references{
-  Kent, J.T., Tyler, D.E., and Vardi, Y. (1994).
+  Kent, J.T., Tyler, D.E., Vardi, Y. (1994).
   A curious likelihood identity for the multivariate t-distribution.
   \emph{Communications in Statistics: Simulation and Computation}
   \bold{23}, 441-453.
 
-  Lange, K., Little, R.J.A., and Taylor, J.M.G. (1989).
+  Lange, K., Little, R.J.A., Taylor, J.M.G. (1989).
   Robust statistical modeling using the t distribution.
   \emph{Journal of the American Statistical Association}
   \bold{84}, 881-896.
-  
-  Osorio, F., and Galea, M. (2015).
-  Statistical inference in multivariate analysis using the t-distribution.
-  Unpublished manuscript.
+
+  Osorio, F., Galea, M., Henriquez, C., Arellano-Valle, R. (2023).
+  Addressing non-normality in multivariate analysis using the \emph{t}-distribution. 
+  \emph{AStA Advances in Statistical Analysis}. \doi{10.1007/s10182-022-00468-2}
 }
 
 \seealso{
@@ -57,9 +63,8 @@ studentFit(x, data, family = Student(eta = .25), subset, na.action, control)
 }
 
 \examples{
-data(PFM)
-fit <- studentFit(~ cuprum.D + habitat.D + planvital.D + provida.D, data = PFM,
-  family = Student(eta = 0.25))
+data(PSG)
+fit <- studentFit(~ manual + automated, data = PSG, family = Student(eta = 0.25))
 fit
 }
 \keyword{models}

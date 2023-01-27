@@ -1,113 +1,48 @@
-#include "random.h"
+/* ID: random.c, last updated 2022-08-23, F.Osorio */
 
-/* declaration of static functions */
+#include "base.h"
+#include "interface.h"
 
-/* functions to deal with dims objects */
-static DIMS dims(int *);
-static void dims_free(DIMS);
-
-/* spherical random generation */
-static void rand_spherical_student(double *, double, int, int);
-static void rand_spherical_norm(double *, int, int);
-
-/* 'dims' functions */
-
-static DIMS
-dims(int *pdims)
-{   /* dims object */
-    DIMS ans;
-
-    ans = (DIMS) Calloc(1, DIMS_struct);
-    ans->n = (int) pdims[0];
-    ans->p = (int) pdims[1];
-    return ans;
-}
-
-static void
-dims_free(DIMS this)
-{   /* destructor for a dims object */
-    Free(this);
-}
-
-/* multivariate normal random generation */
+/* static functions.. */
+static void std_student_rand(double *, double, int, int);
+/* ..end declarations */
 
 void
-rand_norm(double *y, int *pdims, double *center, double *Scatter)
-{   /* multivariate normal random generation */
-    DIMS dm;
-    char *side = "L", *uplo = "U", *trans = "T", *diag = "N";
-    double one = 1.;
-    int i, inc = 1, info = 0, job = 1;
-    
-    dm = dims(pdims);
-    GetRNGstate();
-    chol_decomp(Scatter, dm->p, dm->p, job, &info);
-    if (info)
-	error("DPOTRF in cholesky decomposition gave code %d", info);
-    rand_spherical_norm(y, dm->n, dm->p);
-    F77_CALL(dtrmm)(side, uplo, trans, diag, &(dm->p), &(dm->n), &one, Scatter,
-		    &(dm->p), y, &(dm->p));
-    for (i = 0; i < dm->n; i++) {
-	F77_CALL(daxpy)(&(dm->p), &one, center, &inc, y, &inc);
-	y += dm->p;
-    }
-    PutRNGstate();
-    dims_free(dm);
+student_rand(double *y, int *pdims, double *center, double *Scatter, double *eta)
+{ /* multivariate Student-t random generation */
+  DIMS dm;
+  char *side = "L", *uplo = "U", *trans = "T", *diag = "N";
+  int info = 0, job = 1;
+
+  dm = dims(pdims);
+  GetRNGstate();
+  chol_decomp(Scatter, dm->p, dm->p, job, &info);
+  if (info)
+    error("DPOTRF in cholesky decomposition gave code %d", info);
+  std_student_rand(y, *eta, dm->n, dm->p);
+  mult_triangular_mat(1.0, Scatter, dm->p, dm->p, dm->n, side, uplo, trans, diag, y, dm->p);
+  for (int i = 0; i < dm->n; i++) {
+    ax_plus_y(1.0, center, 1, y, 1, dm->p);
+    y += dm->p;
+  }
+  PutRNGstate();
+  dims_free(dm);
 }
 
 static void
-rand_spherical_norm(double *y, int n, int p)
-{   /* independent standard normal variates */
-    int i, j;
+std_student_rand(double *y, double eta, int n, int p)
+{ /* standard Student-t variates */
+  double tau, radial, scale, shape;
 
-    for (i = 0; i < n; i++) {
-	for (j = 0; j < p; j++)
-	    y[j] = norm_rand();
-	y += p;
-    }
-}
+  shape = .5 / eta;
+  scale = 2. * eta / (1. - 2. * eta);
 
-/* multivariate Student-t random generation */
-
-void
-rand_student(double *y, int *pdims, double *center, double *Scatter, double *eta)
-{   /* multivariate Student-t random generation */
-    DIMS dm;
-    char *side = "L", *uplo = "U", *trans = "T", *diag = "N";
-    double one = 1.;
-    int i, inc = 1, info = 0, job = 1;
-    
-    dm = dims(pdims);
-    GetRNGstate();
-    chol_decomp(Scatter, dm->p, dm->p, job, &info);
-    if (info)
-	error("DPOTRF in cholesky decomposition gave code %d", info);
-    rand_spherical_student(y, *eta, dm->n, dm->p);
-    F77_CALL(dtrmm)(side, uplo, trans, diag, &(dm->p), &(dm->n), &one, Scatter,
-		    &(dm->p), y, &(dm->p));
-    for (i = 0; i < dm->n; i++) {
-	F77_CALL(daxpy)(&(dm->p), &one, center, &inc, y, &inc);
-	y += dm->p;
-    }
-    PutRNGstate();
-    dims_free(dm);
-}
-
-static void
-rand_spherical_student(double *y, double eta, int n, int p)
-{   /* standard Student-t variates */
-    int i, j, inc = 1;
-    double tau, radial, scale, shape;
-
-    shape = .5 / eta;
-    scale = 2. * eta / (1. - 2. * eta);
-
-    for (i = 0; i < n; i++) {
-	for (j = 0; j < p; j++)
-	    y[j] = norm_rand();
-	tau = rgamma(shape, scale);
-	radial = R_pow(tau, -.5);
-	F77_CALL(dscal)(&p, &radial, y, &inc);
-	y += p;
-    }
+  for (int i = 0; i < n; i++) {
+    for (int j = 0; j < p; j++)
+      y[j] = norm_rand();
+    tau = rgamma(shape, scale);
+    radial = R_pow(tau, -.5);
+    scale_vec(y, p, 1, radial);
+    y += p;
+  }
 }

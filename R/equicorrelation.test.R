@@ -1,63 +1,39 @@
+## ID: equicorrelation.test.R, last updated 2021-04-09, F.Osorio
+
 equicorrelation.test <-
 function(object, test = "LRT")
 {
   ## local functions
-  equicorrelationFit <-
-  function(z, dims, settings, center, Scatter, control)
-  {
-    ctrl <- unlist(control)
-    ctrl <- c(ctrl, 0)
-    n <- dims[1]
-    p <- dims[2]
-    sigma2 <- sum(diag(Scatter)) / p
-    rho <-  2 * sum(Scatter[lower.tri(Scatter)]) / (sigma2 * p * (p - 1))
-    ones <- rep(1, p)
-    Scatter <- (1 - rho) * diag(p) + rho * outer(ones, ones)
-    Scatter <- sigma2 * Scatter
-    distances <- mahalanobis(z, center, Scatter)
-    o <- .C("equicorrelation_fit",
-            z = as.double(t(z)),
-            dims = as.integer(dims),
-            settings = as.double(settings),
-            center = as.double(center),
-            Scatter = as.double(Scatter),
-            sigma2 = as.double(sigma2),
-            rho = as.double(rho),
-            distances = as.double(distances),
-            weights = as.double(rep(1, n)),
-            logLik = double(1),
-            control = as.double(ctrl))
-    o$Scatter <- matrix(o$Scatter, ncol = p)
-    o$eta <- o$settings[2]
-    o$numIter <- o$control[4]
-    o
-  }
   restrictedScore <-
-  function(z, weights, center, Scatter)
-  {
+  function(z, weights, center, Scatter) {
     n <- nrow(z)
+    p <- ncol(z)
     y <- sweep(z, 2, center)
     y <- sqrt(weights) * y
     S <- crossprod(y)
     s <- solve(Scatter, S) - n * diag(p)
     s <- s %*% solve(Scatter)
-    Dp <- duplication(p)
-    s <- .5 * crossprod(Dp, as.vector(s))
+    s <- .5 * dupl.prod(n = p, x = as.vector(s), transposed = TRUE, side = "left")
     s <- as.vector(s)
+    s
   }
-  
+
   ## extract object info
   fit <- object
   if (!inherits(fit, "studentFit"))
     stop("Use only with 'studentFit' objects")
+  covType <- fit$covariance$type
+  if (covType != "UN")
+    stop("Only implemented for objects with 'unstructured' Scatter.")
   n <- fit$dims[1]
   p <- fit$dims[2]
 
   ## restricted parameter estimation
-  f0 <- equicorrelationFit(fit$x, fit$dims, fit$settings, fit$start$center, fit$start$Scatter, fit$control)
-  null.fit <- list(call = fit$call, center = f0$center, Scatter = f0$Scatter, sigma2 = f0$sigma2, rho = f0$rho,
-                   eta = f0$eta, distances = f0$distances, weights = f0$weights, logLik = f0$logLik, numIter = f0$numIter)
-
+  f0 <- studentFit(fit$x, family = Student(eta = .25), covStruct = "CS", control = fit$control)
+  null.fit <- list(call = fit$call, center = f0$center, Scatter = f0$Scatter, sigma2 = f0$sigma2,
+                   rho = f0$rho, eta = f0$eta, distances = f0$distances, weights = f0$weights,
+                   logLik = f0$logLik, numIter = f0$numIter)
+  ## dispatcher
   switch(test,
         LRT = {
           stat <- 2. * (fit$logLik - f0$logLik)
@@ -68,7 +44,7 @@ function(object, test = "LRT")
           phi  <- fit$Scatter[lower.tri(fit$Scatter, diag = TRUE)]
           phi0 <- f0$Scatter[lower.tri(f0$Scatter, diag = TRUE)]
           dif  <- phi - phi0
-          aCov <- fisher.info(fit)[-(1:p),-(1:p)]
+          aCov <- fisher.matrix(fit)[-(1:p),-(1:p)]
           rows <- cols <- seq.int(from = 1, length.out = p * (p + 1) / 2)
           acol <- ncol(aCov)
           if (fit$eta != 0.0)
@@ -83,7 +59,7 @@ function(object, test = "LRT")
         },
         score = {
           s <- restrictedScore(fit$x, f0$weights, f0$center, f0$Scatter)
-          aCov <- fisher.info(f0)[-(1:p),-(1:p)]
+          aCov <- fisher.matrix(f0)[-(1:p),-(1:p)]
           rows <- cols <- seq.int(from = 1, length.out = p * (p + 1) / 2)
           acol <- ncol(aCov)
           if (f0$eta != 0.0)
