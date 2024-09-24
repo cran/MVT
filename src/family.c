@@ -1,4 +1,4 @@
-/* ID: family.c, last updated 2023-01-26, F.Osorio */
+/* ID: family.c, last updated 2024-09-23, F.Osorio */
 
 #include "MVT.h"
 
@@ -18,7 +18,7 @@ family_init(double *settings) {
   /* constructor for a family object */
   FAMILY ans;
 
-  ans = (FAMILY) Calloc(1, FAMILY_struct);
+  ans = (FAMILY) R_Calloc(1, FAMILY_struct);
   ans->kind = (int) settings[0];
   ans->eta  = settings + 1;
   return ans;
@@ -27,7 +27,7 @@ family_init(double *settings) {
 void
 family_free(FAMILY this) { 
   /* destructor for a family object */
-  Free(this);
+  R_Free(this);
 }
 
 /* functions for computation of weights */
@@ -95,7 +95,7 @@ static void
 update_eta_student(DIMS dm, double *eta, double *weights, double tol)
 {
   QTpars pars;
-  pars = (QTpars) Calloc(1, QT_pars);
+  pars = (QTpars) R_Calloc(1, QT_pars);
 
   /* constructs a Q-function object */
   pars->dm = dm;
@@ -105,7 +105,7 @@ update_eta_student(DIMS dm, double *eta, double *weights, double tol)
   /* call optimizer */
   *eta = brent(.0, .5, negQfnc_student, pars, tol);
 
-  Free(pars);
+  R_Free(pars);
 }
 
 void

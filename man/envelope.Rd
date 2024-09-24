@@ -27,9 +27,9 @@ envelope.student(object, reps = 50, conf = 0.95, plot.it = TRUE)
 
   Osorio, F., Galea, M., Henriquez, C., Arellano-Valle, R. (2023). 
   Addressing non-normality in multivariate analysis using the t-distribution. 
-  \emph{AStA Advances in Statistical Analysis}. \doi{10.1007/s10182-022-00468-2}
+  \emph{AStA Advances in Statistical Analysis} \bold{107}, 785-813.
 }
-\seealso{\code{\link{wilson.hilferty}}}
+\seealso{\code{\link{WH.student}}}
 \examples{
 data(PSG)
 fit <- studentFit(~ manual + automated, data = PSG, family = Student(eta = 0.25))

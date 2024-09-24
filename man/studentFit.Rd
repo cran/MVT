@@ -55,11 +55,12 @@ control)
 
   Osorio, F., Galea, M., Henriquez, C., Arellano-Valle, R. (2023).
   Addressing non-normality in multivariate analysis using the \emph{t}-distribution. 
-  \emph{AStA Advances in Statistical Analysis}. \doi{10.1007/s10182-022-00468-2}
+  \emph{AStA Advances in Statistical Analysis} \bold{107}, 785-813.
 }
 
 \seealso{
-\code{\link{cov}}, \code{\link{cov.rob}}, \code{\link{cov.trob}}
+\code{\link{cov}}, \code{\link[MASS:cov.rob]{cov.rob}} and \code{\link[MASS:cov.trob]{cov.trob}} 
+in package \CRANpkg{MASS}.
 }
 
 \examples{

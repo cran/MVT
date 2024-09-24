@@ -34,13 +34,13 @@ WH.student(x, center, cov, eta = 0)
 \references{
   Osorio, F., Galea, M., Henriquez, C., Arellano-Valle, R. (2023).
   Addressing non-normality in multivariate analysis using the \emph{t}-distribution. 
-  \emph{AStA Advances in Statistical Analysis}. \doi{10.1007/s10182-022-00468-2}
+  \emph{AStA Advances in Statistical Analysis} \bold{107}, 785-813.
 
   Wilson, E.B., and Hilferty, M.M. (1931).
   The distribution of chi-square.
   \emph{Proceedings of the National Academy of Sciences of the United States of America} \bold{17}, 684-688.
 }
-\seealso{\code{\link{cov}}, \code{\link{mahalanobis}}, \code{\link{envelope}}}
+\seealso{\code{\link{cov}}, \code{\link{mahalanobis}}, \code{\link{envelope.student}}}
 \examples{
 data(companies)
 x <- companies

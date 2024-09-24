@@ -1,4 +1,4 @@
-/* ID: fitter_DIAG.c, last updated 2021-03-12, F.Osorio */
+/* ID: fitter_DIAG.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 #include "interface.h"
@@ -51,8 +51,8 @@ update_diagonal(double *x, int n, int p, double *weights, double *center, double
   double res, wts, *z, *sigma;
 
   /* initialization */
-  sigma = (double *) Calloc(p, double);
-  z     = (double *) Calloc(p, double);
+  sigma = (double *) R_Calloc(p, double);
+  z     = (double *) R_Calloc(p, double);
   setzero(Scatter, p, p, p);
 
   /* updating stage */
@@ -69,5 +69,5 @@ update_diagonal(double *x, int n, int p, double *weights, double *center, double
   for (int j = 0; j < p; j++)
     Scatter[j * (p + 1)] = sigma[j] / (double) n;
 
-  Free(sigma); Free(z);
+  R_Free(sigma); R_Free(z);
 }

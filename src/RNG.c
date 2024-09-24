@@ -1,4 +1,4 @@
-/* ID: random.c, last updated 2022-08-23, F.Osorio */
+/* ID: RNG.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 #include "interface.h"
@@ -8,7 +8,7 @@ static void std_student_rand(double *, double, int, int);
 /* ..end declarations */
 
 void
-student_rand(double *y, int *pdims, double *center, double *Scatter, double *eta)
+RNG_mstudent(double *y, int *pdims, double *center, double *Scatter, double *eta)
 { /* multivariate Student-t random generation */
   DIMS dm;
   char *side = "L", *uplo = "U", *trans = "T", *diag = "N";

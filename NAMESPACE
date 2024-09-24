@@ -15,7 +15,7 @@ importFrom("utils",
            setTxtProgressBar, txtProgressBar)
 
 # Our exports:
-export(envelope.student, equicorrelation.test, homogeneity.test, kurtosis.student, 
+export(dmt, envelope.student, equicorrelation.test, homogeneity.test, kurtosis.student, 
        MVT.control, rmt, Student.family, Student, studentFit, WH.student)
 
 ## register S3 methods

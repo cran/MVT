@@ -1,10 +1,12 @@
-/* ID: interface.c, last updated 2021-02-08, F.Osorio */
+/* ID: interface.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 #include "interface.h"
 #include <fastmatrix_API.h>
 
-/* basic matrix manipulations */
+/* ========================================================================== *
+ * basic matrix manipulations
+ * ========================================================================== */
 
 void
 ax_plus_y(double alpha, double *x, int incx, double *y, int incy, int n)
@@ -87,11 +89,13 @@ sum_lower_tri(double *a, int lda, int p, int job)
 
 double
 logAbsDet(double *a, int lda, int n)
-{ /* log(abs(det(a))), where 'a' is a tringular matrix */
+{ /* log(abs(det(a))), where 'a' is a triangular matrix */
   return FM_logAbsDet(a, lda, n);
 }
 
-/* routines for matrix decompositions */
+/* ========================================================================== *
+ * routines for matrix decompositions
+ * ========================================================================== */
 
 void
 chol_decomp(double *a, int lda, int p, int job, int *info)
@@ -102,7 +106,9 @@ chol_decomp(double *a, int lda, int p, int job, int *info)
   FM_chol_decomp(a, lda, p, job, info);
 }
 
-/* matrix inversion and triangular solver */
+/* ========================================================================== *
+ * matrix inversion and triangular solver
+ * ========================================================================== */
 
 void
 invert_mat(double *a, int lda, int n, int *info)
@@ -118,7 +124,9 @@ backsolve(double *r, int ldr, int n, double *b, int ldb, int nrhs, int *info)
   FM_backsolve(r, ldr, n, b, ldb, nrhs, info);
 }
 
-/* descriptive statistics */
+/* ========================================================================== *
+ * (multivariate) descriptive statistics 
+ * ========================================================================== */
 
 void
 center_and_Scatter(double *x, int n, int p, double *weights, double *center, double *Scatter)
@@ -132,7 +140,9 @@ center_online(double *x, int n, int p, double *weights, double *center)
   FM_online_center(x, n, p, weights, center);
 }
 
-/* Mahalanobis distances */
+/* ========================================================================== *
+ * Mahalanobis distance
+ * ========================================================================== */
 
 double
 mahalanobis(double *x, int p, double *center, double *Root)
@@ -141,7 +151,9 @@ mahalanobis(double *x, int p, double *center, double *Root)
   return FM_mahalanobis(x, p, center, Root);
 }
 
-/* Wilson-Hilferty transformation */
+/* ========================================================================== *
+ * Wilson-Hilferty transformation
+ * ========================================================================== */
 
 void
 WH_chisq(double *distances, int n, int p, double *z)
@@ -155,7 +167,9 @@ WH_F(double *distances, int n, int p, double eta, double *z)
   FM_WH_F(distances, n, p, eta, z);
 }
 
-/* Utilities */
+/* ========================================================================== *
+ * Utilities
+ * ========================================================================== */
 
 void
 cov2cor(double *cov, int p)

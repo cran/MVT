@@ -1,4 +1,4 @@
-/* ID: shared.c, last updated 2021-02-06, F.Osorio */
+/* ID: shared.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 #include "interface.h"
@@ -11,8 +11,8 @@ E_step(double *x, int n, int p, double *center, double *Scatter, FAMILY family, 
   double *Root, *z;
   int errcode = 0, job = 0;
 
-  Root = (double *) Calloc(p * p, double);
-  z    = (double *) Calloc(p, double);
+  Root = (double *) R_Calloc(p * p, double);
+  z    = (double *) R_Calloc(p, double);
 
   copy_lower(Root, p, Scatter, p, p);
   chol_decomp(Root, p, p, job, &errcode);
@@ -25,7 +25,7 @@ E_step(double *x, int n, int p, double *center, double *Scatter, FAMILY family, 
     weights[i] = do_weight(family, (double) p, distances[i]);
   }
 
-  Free(Root); Free(z);
+  R_Free(Root); R_Free(z);
 }
 
 void
@@ -44,7 +44,7 @@ log_Lik(FAMILY family, DIMS dm, double *distances, double *Scatter)
   double *Root, val;
   int errcode = 0, job = 0;
 
-  Root = (double *) Calloc(dm->p * dm->p, double);
+  Root = (double *) R_Calloc(dm->p * dm->p, double);
 
   copy_lower(Root, dm->p, Scatter, dm->p, dm->p);
   chol_decomp(Root, dm->p, dm->p, job, &errcode);
@@ -53,7 +53,7 @@ log_Lik(FAMILY family, DIMS dm, double *distances, double *Scatter)
 
   val  = logLik_kernel(family, dm, distances);
   val -= (double) dm->n * logAbsDet(Root, dm->p, dm->p);
-  Free(Root);
+  R_Free(Root);
 
   return val;
 }

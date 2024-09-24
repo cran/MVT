@@ -1,4 +1,4 @@
-/* ID: fitter_UN.c, last updated 2021-01-30, F.Osorio */
+/* ID: fitter_UN.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 #include "interface.h"
@@ -49,7 +49,7 @@ model_init(double *y, int *pdims, double *settings, int *covType, double *center
 { /* constructor for a multivariate object */
   MODEL model;
 
-  model = (MODEL) Calloc(1, MODEL_struct);
+  model = (MODEL) R_Calloc(1, MODEL_struct);
   model->dm = dims(pdims);
   model->settings = settings;
   model->family = family_init(settings);
@@ -86,5 +86,5 @@ model_free(MODEL this)
 { /* destructor for a model object */
   dims_free(this->dm);
   family_free(this->family);
-  Free(this);
+  R_Free(this);
 }

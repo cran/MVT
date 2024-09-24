@@ -1,7 +1,12 @@
+0.3-81 (Sep 24, 2024)
+ * Function for the evaluation of the multivariate t distribution density has been added.
+ * Deprecated declarations of Calloc and Free are not longer used in the package.
+
 0.3-8 (Jan 25, 2023)
-	* C code to obtain certain matrix computations and decompositions is now provided
-	  by 'fastmatrix' R package.
-	* Clean-ups in C and R code.
+ * Several covariance structures have been included for the fitting procedure.
+ * C code to obtain certain matrix computations and decompositions is now provided 
+   by 'fastmatrix' R package.
+ * Clean-ups in C and R code.
 
 0.3 (Oct 11, 2015)
-	* Initial release of the MVT on CRAN
+ * Initial release of the MVT on CRAN

@@ -1,4 +1,4 @@
-## ID: random.R, last updated 2022-08-21, F.Osorio
+## ID: RNG.R, last updated 2024-09-23, F.Osorio
 
 rmt <-
 function(n = 1, mean = rep(0, nrow(Sigma)), Sigma = diag(length(mean)), eta = .25)
@@ -16,7 +16,7 @@ function(n = 1, mean = rep(0, nrow(Sigma)), Sigma = diag(length(mean)), eta = .2
   if (eta == 0) { # from fastmatrix
     y <- rmnorm(n, mean, Sigma)
   } else { # call C code
-    y <- .C("student_rand",
+    y <- .C("RNG_mstudent",
             y = as.double(y),
             dims = as.integer(dy),
             mean = as.double(mean),

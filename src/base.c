@@ -1,4 +1,4 @@
-/* ID: base.c, last updated 2021-02-02, F.Osorio */
+/* ID: base.c, last updated 2024-09-23, F.Osorio */
 
 #include "base.h"
 
@@ -9,7 +9,7 @@ dims(int *pdims)
 { /* dims object */
   DIMS ans;
 
-  ans = (DIMS) Calloc(1, DIMS_struct);
+  ans = (DIMS) R_Calloc(1, DIMS_struct);
   ans->n = (int) pdims[0];
   ans->p = (int) pdims[1];
   return ans;
@@ -18,5 +18,5 @@ dims(int *pdims)
 void
 dims_free(DIMS this)
 { /* destructor for a dims object */
-  Free(this);
+  R_Free(this);
 }
